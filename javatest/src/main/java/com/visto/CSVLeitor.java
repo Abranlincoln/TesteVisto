@@ -7,29 +7,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.io.IOException;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 
 public class CSVLeitor {
 
-        // caminho do arquivo CSV
-        private static final String CAMINHO_CSV = "C:\\Users\\abranlincoln\\Desktop\\TesteVisto\\javatest\\src\\main\\java\\com\\visto\\baseDados1.csv";
+        // caminho do arquivo CSV.
+        private static final String CAMINHO_CSV = "C:\\Users\\abran\\Desktop\\TesteVisto\\javatest\\src\\main\\java\\com\\visto\\baseDados.csv";
 
         public static void main(String[] args) {
 
                 try {
 
-                        // criando o parser para ler o arquivo CSV e depois ler o arquivo
+                        // criando o parser para ler o arquivo CSV e depois ler o arquivo.
                         CSVParser analisador = new CSVParserBuilder().withSeparator(';').withQuoteChar('"').build();
                         CSVReader csvLeitor = new CSVReaderBuilder(new FileReader(new File(CAMINHO_CSV)))
                                         .withSkipLines(0)
                                         .withCSVParser(analisador)
                                         .build();
 
-                        // criando lista de mapas para armazenar os dados
+                        // criando lista de mapas para armazenar os dados.
                         List<Map<String, String>> linhas = new ArrayList<Map<String, String>>();
                         String[] cabecalho = csvLeitor.readNext();
                         String[] colunas = null;
@@ -42,7 +44,7 @@ public class CSVLeitor {
                                 linhas.add(campoMap);
                         }
 
-                        // imprimir todos os dados de forma organizada
+                        // imprimir todos os dados de forma organizada.
                         linhas.forEach(coluna -> {
 
                                 String marca = coluna.get("Veículo").split(" ")[1];
@@ -55,7 +57,7 @@ public class CSVLeitor {
 
                         });
 
-                        // Pessoa com maior peso
+                        // Pessoa com maior peso.
                         linhas.stream().max(
                                         (pesoInicio, pesoFim) -> Double.compare(
                                                         Double.parseDouble(pesoInicio.get("Peso")),
@@ -64,7 +66,7 @@ public class CSVLeitor {
                                                         posicao.get("Sobrenome"),
                                                         Double.parseDouble(posicao.get("Peso"))));
 
-                        // Pessoa com maior altura
+                        // Pessoa com maior altura.
                         linhas.stream().max((alturaInicio, alturaFim) -> Double.compare(
                                         Double.parseDouble(alturaInicio.get("Altura")),
                                         Double.parseDouble(alturaFim.get("Altura"))))
@@ -72,8 +74,8 @@ public class CSVLeitor {
                                                         posicao.get("Sobrenome"),
                                                         Double.parseDouble(posicao.get("Altura"))));
 
-                        // Calcular IMC e separar as pessoas obesas se houver
-			Interface.showObesidade();
+                        // Calcular IMC e separar as pessoas obesas se houver.
+                        Interface.showObesidade();
                         linhas.stream().filter(posicao -> {
                                 double alturaIMC = Double.parseDouble(posicao.get("Altura")) / 100;
                                 double pesoIMC = Double.parseDouble(posicao.get("Peso"));
@@ -81,41 +83,42 @@ public class CSVLeitor {
                                 return imcEspecifico >= 30;
                         }).forEach(posicao -> Interface.showPessoasObesas(posicao.get("Nome"),
                                         posicao.get("Sobrenome")));
-			Interface.formatacao();
-			
+                        Interface.formatacao();
 
-                        // Marca de veículo mais utilizada + quantidade
+                        // Marca de veículo mais utilizada + quantidade.
                         linhas.stream()
                                         .collect(Collectors.groupingBy(
                                                         posicao -> posicao.get("Veículo").split(" ")[1],
                                                         Collectors.counting()))
                                         .entrySet().stream()
-                                        .max((marcaInit, marcaFinal) -> Long.compare(marcaInit.getValue(),
-                                                        marcaFinal.getValue()))
+                                        .max((marcaInicio, marcaFim) -> Long.compare(marcaInicio.getValue(),
+                                                        marcaFim.getValue()))
                                         .ifPresent(posicao -> Interface.showMarcaMaisUtilizada(posicao.getKey(),
                                                         posicao.getValue()));
 
-                        // Função mais encontrada + quantidade
+                        // Função mais encontrada + quantidade.
                         linhas.stream().collect(
                                         Collectors.groupingBy(posicao -> posicao.get("Função"), Collectors.counting()))
                                         .entrySet()
                                         .stream()
-                                        .max((functionInit, functionFinal) -> Long
-                                                        .compare(functionInit.getValue(), functionFinal.getValue()))
+                                        .max((funcaoInicio, funcaoFim) -> Long
+                                                        .compare(funcaoInicio.getValue(), funcaoFim.getValue()))
                                         .ifPresent(posicao -> Interface.showFuncaoMaisEncontrada(posicao.getKey(),
                                                         posicao.getValue()));
 
-                        // Empresa com mais pessoas + quantidade
+                        // Empresa com mais pessoas + quantidade.
                         linhas.stream()
                                         .collect(Collectors.groupingBy(posicao -> posicao.get("Empresa"),
                                                         Collectors.counting()))
                                         .entrySet().stream()
-                                        .max((empresaInit, empresaFinal) -> Long.compare(empresaInit.getValue(),
-                                                        empresaFinal.getValue()))
+                                        .max((empresaInicio, empresaFim) -> Long.compare(empresaInicio.getValue(),
+                                                        empresaFim.getValue()))
                                         .ifPresent(posicao -> Interface.showEmpresaComMaisPessoas(posicao.getKey(),
-                                        posicao.getValue()));
+                                                        posicao.getValue()));
+                                                        
                         csvLeitor.close();
-                } catch (Exception erro) {
+
+                } catch (CsvValidationException | IOException erro) {
                         System.out.println("Erro: " + erro.getMessage());
                 }
         }
