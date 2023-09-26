@@ -14,10 +14,14 @@ public class openBasedados {
                 .withType(Pessoas.class)
                 .build()
                 .parse();
-
         List<Veiculo> veiculos = new CsvToBeanBuilder<Veiculo>(new FileReader(csvFile))
                 .withSeparator(';') // Defina o separador como ';'
                 .withType(Veiculo.class)
+                .build()
+                .parse();
+        List<Empresa> empresas = new CsvToBeanBuilder<Empresa>(new FileReader(csvFile))
+                .withSeparator(';') // Defina o separador como ';'
+                .withType(Empresa.class)
                 .build()
                 .parse();
 
@@ -25,7 +29,7 @@ public class openBasedados {
         Estatisticas estatisticas = new Estatisticas();
 
         // Imprimir as estatísticas no console
-        estatisticas.imprimirEstatisticas(pessoas, veiculos);
+        estatisticas.imprimirEstatisticas(pessoas, veiculos, empresas);
 
     }
 }

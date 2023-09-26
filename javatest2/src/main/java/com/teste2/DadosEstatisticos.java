@@ -19,11 +19,11 @@ public interface DadosEstatisticos {
     // Método para encontrar a pessoa mais magra
     Pessoas pessoaMaisMagra(List<Pessoas> pessoas);
 
-    // Método para imprimir as estatísticas
-    void imprimirEstatisticas(List<Pessoas> pessoas, List<Veiculo> veiculos);
-
+    
     // Método para imprimrie a empresa com mais funcionarios
-    void imprimirEmpresaComMaisFuncionarios(List<Empresa> empresas);
+    Empresa EmpresaComMaisFuncionarios(List<Empresa> empresas);
 
+    // Método para imprimir as estatísticas
+    void imprimirEstatisticas(List<Pessoas> pessoas, List<Veiculo> veiculos, List<Empresa> empresas);
 
 }

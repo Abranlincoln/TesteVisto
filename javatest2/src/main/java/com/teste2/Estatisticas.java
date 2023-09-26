@@ -102,7 +102,8 @@ public class Estatisticas implements DadosEstatisticos {
         return pessoaMaisMagra;
     }
     
-    public Empresa imprimirEmpresaComMaisFuncionarios(List<Empresa> empresas) {
+    @Override
+    public Empresa EmpresaComMaisFuncionarios(List<Empresa> empresas) {
         Empresa empresaComMaisFuncionarios = null;
         int maxFuncionarios = 0;
     
@@ -119,15 +120,15 @@ public class Estatisticas implements DadosEstatisticos {
         return empresaComMaisFuncionarios;
     }
     
-    
-    public void imprimirEstatisticas(List<Pessoas> pessoas, List<Veiculo> veiculos , List<Empresa> empresas) {
+    @Override
+    public void imprimirEstatisticas(List<Pessoas> pessoas, List<Veiculo> veiculos, List<Empresa> empresas) {
         // Chame os métodos acima para calcular as estatísticas
         String marcaMaisUtilizada = marcaMaisUtilizada(veiculos);
         Pessoas pessoaMaisGorda = pessoaMaisGorda(pessoas);
         double imcMedio = calcularIMCMedio(pessoas);
         Pessoas pessoaMaisAlta = pessoaMaisAlta(pessoas);
         Pessoas pessoaMaisMagra = pessoaMaisMagra(pessoas);
-        Empresa empresaComMaisFuncionarios = imprimirEmpresaComMaisFuncionarios(empresas);
+        Empresa empresaComMaisFuncionarios = EmpresaComMaisFuncionarios(empresas);
 
         // Imprima as estatísticas no console
         System.out.println("Marca mais utilizada: " + marcaMaisUtilizada);

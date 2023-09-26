@@ -1,10 +1,13 @@
 package com.teste2;
 
+import java.util.List;
+
 import com.opencsv.bean.CsvBindByName;
 
 public class Funcao {
     @CsvBindByName(column = "Funcao")
-    private String funcao;
+    private List<Funcao> funcao;
+
 
     @Override
     public String toString() {
@@ -12,11 +15,11 @@ public class Funcao {
     }
 
     // Construtores, getters e setters
-    public String getFuncao() {
+    public List<Funcao> getFuncao() {
         return funcao;
     }
 
-    public void setFuncao(String funcao) {
+    public void setFuncao(List<Funcao> funcao) {
         this.funcao = funcao;
     }
 }
